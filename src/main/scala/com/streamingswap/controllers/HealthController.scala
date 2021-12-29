@@ -1,6 +1,5 @@
 package com.streamingswap.controllers
 
-
 import com.streamingswap.Settings
 import play.api.Logger
 import play.api.mvc._
@@ -8,10 +7,10 @@ import play.api.mvc._
 import javax.inject.Inject
 import scala.concurrent._
 
-class HealthController @Inject()(
-                                  val controllerComponents: ControllerComponents,
-                                  val settings: Settings,
-                                ) extends BaseController {
+class HealthController @Inject() (
+  val controllerComponents: ControllerComponents,
+  val settings: Settings,
+) extends BaseController {
 
   val logger: Logger = Logger(this.getClass)
 

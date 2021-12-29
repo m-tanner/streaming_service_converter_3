@@ -17,10 +17,10 @@ val runtimeDependencies = Seq(
   Common.typesafeConfig,
   Common.scalaLogging,
   Common.logback,
-  Common.guice, // eliminates the use of reflection
+  Common.guice,              // eliminates the use of reflection
   play.sbt.PlayImport.guice, // needs both guice dependencies
   play.sbt.PlayImport.ws,
-  play.sbt.PlayImport.ehcache,
+  Common.json4sNative,
 )
 
 val testDependencies = Seq(
@@ -34,13 +34,13 @@ libraryDependencies ++= runtimeDependencies ++ testDependencies
 
 lazy val root = (project in file("."))
   .settings(
-    name := "streaming_service_converter_3",
+    name := "streaming_service_converter_3"
   )
 
-Compile / scalaSource := baseDirectory.value / "src/main/scala"
+Compile / scalaSource       := baseDirectory.value / "src/main/scala"
 Compile / resourceDirectory := baseDirectory.value / "src/main/resources"
 
-Test / scalaSource := baseDirectory.value / "src/test/scala"
+Test / scalaSource       := baseDirectory.value / "src/test/scala"
 Test / resourceDirectory := baseDirectory.value / "src/test/resources"
 
 enablePlugins(PlayScala, PlayService, JavaAppPackaging)

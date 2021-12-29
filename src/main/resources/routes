@@ -1,4 +1,2 @@
-GET        /                                       @controllers.Default.redirect(to = "/health")
-GET        /health                                 @com.streamingswap.controllers.HealthController.index()
-GET        /spotify/:clientId/:clientSecret        @com.streamingswap.controllers.ClientController.authorizeSpotify(clientId: String, clientSecret: String)
-GET        /tracks                                 @com.streamingswap.controllers.ClientController.getTracks()
+GET     /           @controllers.Default.redirect(to = "/health")
+GET     /health     @com.streamingswap.controllers.HealthController.index()
