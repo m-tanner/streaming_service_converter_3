@@ -1,0 +1,7 @@
+schemaVersion: '2.0.0'
+commandTests:
+  # check that bash is installed in the correct location
+  - name: "bash installation"
+    command: "which"
+    args: [ "bash" ]
+    expectedOutput: [ "/bin/bash\n" ]

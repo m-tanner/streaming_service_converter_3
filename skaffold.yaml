@@ -1,0 +1,32 @@
+apiVersion: skaffold/v2beta23
+kind: Config
+metadata:
+  name: ssc-skaffold
+build:
+  artifacts:
+    - image: docker.io/tannertanner/streaming_service_converter
+      context: .
+      docker:
+        dockerfile: docker/Dockerfile
+        buildArgs:
+          APEX_VERSION: "1.0"
+  tagPolicy:
+    gitCommit: { }
+  local: { }
+test:
+  - image: docker.io/tannertanner/streaming_service_converter
+    structureTests:
+      - ssc-service/src/test/container-structure/test_commands.yml
+      - ssc-service/src/test/container-structure/test_metadata.yml
+profiles:
+  - name: profile-docker-desktop
+    activation:
+      - kubeContext: docker-desktop
+    build:
+      local:
+        push: false
+    deploy:
+      kustomize:
+        paths:
+          - ssc-service/k8s/dev
+      kubeContext: docker-desktop
