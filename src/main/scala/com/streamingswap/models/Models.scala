@@ -17,3 +17,21 @@ case class Track(
 )
 case class Item(added_at: String, track: Track)
 case class PlaylistTracks(href: String, items: List[Item], limit: Int, next: Option[String], offset: Int, total: Int)
+case class AudioFeature(
+  acousticness: Float,
+  danceability: Float,
+  duration_ms: Int,
+  energy: Float,
+  id: String,
+  instrumentalness: Float,
+  key: Int,
+  liveness: Float,
+  loudness: Float,
+  mode: Int,
+  speechiness: Float,
+  tempo: Float,
+  time_signature: Int,
+  valence: Float,
+)
+case class AudioFeatures(audio_features: List[AudioFeature])
+case class Stat(name: String, min: AudioFeature, max: AudioFeature, sum: Float = 0, avg: Float = Float.NaN)

@@ -1,6 +1,6 @@
 package com.streamingswap
 
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.{ Config, ConfigFactory }
 
 import javax.inject.Inject
 

@@ -1,16 +1,16 @@
 package com.streamingswap.clients
 
-import com.streamingswap.models.{Item, Playlist}
-import com.streamingswap.{PlaySpec, Settings}
+import com.streamingswap.models.{ AudioFeature, Item, Playlist, Track }
+import com.streamingswap.{ PlaySpec, Settings }
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.ws.ahc._
 import play.api.mvc._
-import play.api.{Environment, Mode}
+import play.api.{ Environment, Mode }
 
 import java.io.File
 import scala.concurrent.ExecutionContext.global
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{Await, ExecutionContextExecutor, Future}
+import scala.concurrent.{ Await, ExecutionContextExecutor, Future }
 import scala.language.postfixOps
 
 class SpotifyClientSpec extends PlaySpec with Results with GuiceOneAppPerSuite {
@@ -42,10 +42,28 @@ class SpotifyClientSpec extends PlaySpec with Results with GuiceOneAppPerSuite {
       playlist.owner mustBe Map("display_name" -> "Tanner")
       playlist.external_urls mustBe Map("spotify" -> "https://open.spotify.com/playlist/720360kMd4LiSAVzyA8Ft4")
     }
-    "successfully get playlist tracks" in withRealClient { client =>
-      val futureResult: Future[List[Item]] = client.getPlaylistTracks("720360kMd4LiSAVzyA8Ft4")
+    "successfully get playlist items" in withRealClient { client =>
+      val futureResult: Future[List[Item]] = client.getPlaylistItems("720360kMd4LiSAVzyA8Ft4")
       val items                            = Await.result(futureResult, 10 second)
       items must have length 405
+      items.head.added_at mustBe "2019-07-14T20:36:50Z"
     }
+    "successfully get playlist tracks" in withRealClient { client =>
+      val futureResult: Future[Map[String, Track]] = client.getPlaylistTracks("720360kMd4LiSAVzyA8Ft4")
+      val tracks                                   = Await.result(futureResult, 10 second)
+      tracks must have size 405
+      tracks must contain key "1PR1JQmuOmI3eD4isHeLlI"
+    }
+    "successfully get audio features" in withRealClient { client =>
+      val futureResult: Future[Map[String, AudioFeature]] = client.getAudioFeatures("720360kMd4LiSAVzyA8Ft4")
+      val features                                        = Await.result(futureResult, 10 second)
+      features must have size 405
+      features must contain key "1PR1JQmuOmI3eD4isHeLlI"
+    }
+//    "successfully get feature metrics" in withRealClient { client =>
+//      val futureResult: Future[List[String]] = client.getFeatureMetrics("720360kMd4LiSAVzyA8Ft4")
+//      val metrics                            = Await.result(futureResult, 10 second)
+//      metrics must have size 405
+//    }
   }
 }
