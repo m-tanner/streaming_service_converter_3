@@ -1,4 +1,4 @@
-package com.streamingswap.controllers
+package com.streamingswap.health
 
 import com.streamingswap.Settings
 import play.api.Logger

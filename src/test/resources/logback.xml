@@ -19,8 +19,6 @@
 
     <logger name="play" level="INFO"/>
     <logger name="application" level="DEBUG"/>
-    <logger name="org.jose4j" level="INFO"/>
-    <logger name="akka" level="WARN"/>
 
     <root level="DEBUG">
         <appender-ref ref="ASYNCSTDOUT"/>

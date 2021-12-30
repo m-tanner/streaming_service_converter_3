@@ -1,6 +1,9 @@
-package com.streamingswap.models
+package com.streamingswap.spotify
 
 case class ClientCredentials(access_token: String, token_type: String, expires_in: Int)
+case class PlaylistId(id: String) {
+  override def toString: String = id
+}
 case class Playlist(name: String, owner: Map[String, String], external_urls: Map[String, String])
 case class Artist(id: String, name: String)
 case class Image(height: Int, url: String, width: Int)
@@ -32,6 +35,30 @@ case class AudioFeature(
   tempo: Float,
   time_signature: Int,
   valence: Float,
-)
+) {
+  def extract(field: String): Float = {
+    field match {
+      case "acousticness"     => acousticness
+      case "danceability"     => danceability
+      case "duration_ms"      => duration_ms.toFloat
+      case "energy"           => energy
+      case "instrumentalness" => instrumentalness
+      case "liveness"         => liveness
+      case "loudness"         => loudness
+      case "tempo"            => tempo
+      case "valence"          => valence
+    }
+  }
+}
 case class AudioFeatures(audio_features: List[AudioFeature])
-case class Stat(name: String, min: AudioFeature, max: AudioFeature, sum: Float = 0, avg: Float = Float.NaN)
+case class Stat(
+  name: String,
+  minValue: Float = Float.MaxValue,
+  minAudioFeature: Option[AudioFeature] = None,
+  minTrack: Option[Track] = None,
+  maxValue: Float = Float.MinValue,
+  maxAudioFeature: Option[AudioFeature] = None,
+  maxTrack: Option[Track] = None,
+  sum: Float = 0,
+  avg: Float = Float.NaN,
+)

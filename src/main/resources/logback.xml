@@ -19,8 +19,8 @@
 
     <logger name="play" level="INFO"/>
     <logger name="application" level="DEBUG"/>
-
-    <logger name="com.evidenceweb.apex" level="DEBUG"/>
+    <logger name="com.streamingswap" level="DEBUG"/>
+    <logger name="v1.statistics" level="TRACE" />
 
     <root level="INFO">
         <appender-ref ref="ASYNCSTDOUT"/>

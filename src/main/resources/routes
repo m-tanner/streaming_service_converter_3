@@ -1,2 +1,3 @@
-GET     /           @controllers.Default.redirect(to = "/health")
-GET     /health     @com.streamingswap.controllers.HealthController.index()
+GET     /                   @controllers.Default.redirect(to = "/health")
+GET     /health             @com.streamingswap.health.HealthController.index()
+->      /v1/statistics      com.streamingswap.v1.statistics.StatisticsRouter
