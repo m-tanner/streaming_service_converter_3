@@ -86,7 +86,7 @@ docker build . --file ./src/docker/Dockerfile --tag streaming_service_converter_
 
 # run
 # setting a memory limit (to behave like it will on Google Cloud Run)
-# setting enviornment variables
+# setting environment variables
 # you must have these environment variables set appropriately on the host machine
 # setting 8080 on your machine mapped to 9000 on the container
 docker run -m 256m -e PLAY_APPLICATION_SECRET -e SPOTIFY_CLIENT_SECRET -p 8080:9000 streaming_service_converter_3
@@ -104,7 +104,7 @@ also deploy to remote servers, but we have TeamCity, `k8s-deploy`, and `argo-app
 - [Quickstart](https://skaffold.dev/docs/quickstart/)
 
 ```shell
-# stop at the build
+# stop at the build and push
 skaffold build
 
 # like a ci/cd pipeline would, build and deploy the app one time
@@ -143,15 +143,11 @@ The app is deployed [here](https://console.cloud.google.com/run/detail/us-west1/
    1) [Intel Mac](https://desktop.docker.com/mac/main/amd64/Docker.dmg)
    2) [M Mac](https://desktop.docker.com/mac/main/arm64/Docker.dmg)
 6) Ensure Docker Desktop is totally up to date! This may take several updates.
-   1) Enable Kubernetes in Docker Desktop
-   2) Verify Kubernetes version v1.21.5
 7) Run the following:
    ```shell
-   /bin/bash setup-k8s-for-mac.sh
+   skaffold build
    
-   /bin/bash setup-docker-desktop-k8s.sh
-   
-   skaffold run
+   docker run -m 256m -e PLAY_APPLICATION_SECRET -e SPOTIFY_CLIENT_SECRET -p 8080:9000 streaming_service_converter_3
    ```
 8) Or if you prefer to do the setup manually, see [that readme](./documentation/README_LOCAL_K8S.md)
 
