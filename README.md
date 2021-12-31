@@ -12,6 +12,10 @@ Containerization: Docker
 
 Deployment: Google Cloud Run
 
+## TODO
+
+1) Read and implement according to [this](https://stackoverflow.com/questions/60354048/how-much-headroom-to-leave-between-java-xmx-and-docker-container-ram-size)
+
 ## Technologies Used
 
 ### Scala/sbt/Play
