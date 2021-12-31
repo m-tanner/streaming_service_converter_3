@@ -44,4 +44,4 @@ EXPOSE 9000
 # set running the service as the entrypoint
 ENTRYPOINT ["/bin/bash", "/opt/streaming_service_converter_3/bin/streaming_service_converter_3"]
 # but allow for runtime commands to overwrite the arguments
-CMD ["-Dconfig.file=/opt/streaming_service_converter_3/conf/production.conf"]
+CMD ["-Dconfig.file=/opt/streaming_service_converter_3/conf/application.conf"]

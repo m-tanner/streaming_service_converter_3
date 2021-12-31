@@ -4,29 +4,22 @@ metadata:
   name: ssc-skaffold
 build:
   artifacts:
-    - image: docker.io/tannertanner/streaming_service_converter
+    - image: gcr.io/four-track-friday-2/streaming_service_converter_3
       context: .
       docker:
-        dockerfile: docker/Dockerfile
+        dockerfile: src/docker/Dockerfile
+        cacheFrom:
+          - "amazoncorretto:11-alpine3.14-jdk"
         buildArgs:
-          APEX_VERSION: "1.0"
+          SERVICE_VERSION: "0.1.0-SNAPSHOT"
   tagPolicy:
-    gitCommit: { }
-  local: { }
+    gitCommit: {}
+  local: {}
 test:
-  - image: docker.io/tannertanner/streaming_service_converter
+  - image: gcr.io/four-track-friday-2/streaming_service_converter_3
     structureTests:
-      - ssc-service/src/test/container-structure/test_commands.yml
-      - ssc-service/src/test/container-structure/test_metadata.yml
-profiles:
-  - name: profile-docker-desktop
-    activation:
-      - kubeContext: docker-desktop
-    build:
-      local:
-        push: false
-    deploy:
-      kustomize:
-        paths:
-          - ssc-service/k8s/dev
-      kubeContext: docker-desktop
+      - ./src/test/container-structure/test_commands.yml
+      - ./src/test/container-structure/test_metadata.yml
+deploy: {}
+# no custom profiles here
+# this skaffold config stops at pushing the docker image to the registry

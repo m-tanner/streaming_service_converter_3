@@ -10,6 +10,8 @@ Web Framework: Play 2.8.X
 
 Containerization: Docker
 
+Deployment: Google Cloud Run
+
 ## Technologies Used
 
 ### Scala/sbt/Play
@@ -20,14 +22,15 @@ An installation of `sbt` is packaged with the repo so that build runners and doc
 distribution. But you can also rely on this as a developer by running commands like:
 
 ```shell
-# clean the target folders, compile all subprojects, run all tests
-./bin/sbt clean compile test
+# clean the target folders, format all files, compile all subprojects, run all tests
+./bin/sbt clean fmt compile test
 
 # run
 ./bin/sbt run
 
 # the above commands can also be run separately
 ./bin/sbt clean
+./bin/sbt fmt
 ./bin/sbt compile
 ./bin/sbt test
 ```
@@ -82,36 +85,12 @@ docker build . --file ./src/docker/Dockerfile --tag streaming_service_converter_
 # add `--target build0` to stop at the build0 stage
 
 # run, mapping 8080 on your machine to 9000 on the container
-docker run -p 8080:9000 streaming_service_converter_3
+# you must have these environment variables set appropriately on the host machine
+docker run -e PLAY_APPLICATION_SECRET -e SPOTIFY_CLIENT_SECRET -p 8080:9000 streaming_service_converter_3
 
 # cleanup your system
 docker system prune -a -f --volumes
 ```
-
-### Kubernetes (k8s) and Kustomize
-
-#### Intro
-
-For a professional explanation, see the
-official "[Kubernetes Explained](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/)."
-
-We use an Ingress to let traffic into our cluster and find our Service, which load balances the traffic across all the
-pods in our Deployment.
-
-#### Key Kubernetes Concepts
-
-- [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-- [Services](https://kubernetes.io/docs/concepts/services-networking/service/)
-- [Ingresses](https://kubernetes.io/docs/concepts/services-networking/ingress/)
-- [Config Maps](https://kubernetes.io/docs/concepts/configuration/configmap/)
-- [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
-
-#### Kustomize
-
-Kustomize offers basic class-based inheritance and overrides for k8s yaml files. Check out `./apex-service/k8s` to see
-it in action.
-
-- [Kustomize](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/)
 
 #### Skaffold
 
@@ -121,11 +100,19 @@ also deploy to remote servers, but we have TeamCity, `k8s-deploy`, and `argo-app
 - [Docs](https://skaffold.dev/docs/)
 - [Quickstart](https://skaffold.dev/docs/quickstart/)
 
-#### Useful Links
+```shell
+# stop at the build
+skaffold build
 
-You'll need to have this cheat sheet open when learning your way around `kubectl`!
+# like a ci/cd pipeline would, build and deploy the app one time
+skaffold run
+```
 
-- [Kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+#### Google Cloud Run
+
+Cloud Run can run arbitrary containers.
+
+The app is deployed [here](https://console.cloud.google.com/run/detail/us-west1/streaming-service-converter-3/revisions?project=four-track-friday-2) (access is required to view this page).
 
 # Quickstart
 
@@ -164,36 +151,6 @@ You'll need to have this cheat sheet open when learning your way around `kubectl
    skaffold run
    ```
 8) Or if you prefer to do the setup manually, see [that readme](./documentation/README_LOCAL_K8S.md)
-
-## Scripts and Commands
-
-#### Local Computer
-
-```shell
-# with docker desktop kubernetes running,
-# setup all the namespaces and required resources
-# then build and deploy the app!
-/bin/bash setup-docker-desktop-k8s.sh
-
-# setup your mac with the tools necessary for k8s
-/bin/bash setup-k8s-for-mac.sh
-```
-
-#### Skaffold Commands
-
-```shell
-# stop at the build
-skaffold build
-
-# like a ci/cd pipeline would, build and deploy the app one time
-skaffold run
-   
-# or to tail the app logs after deployment 
-skaffold run --tail
-
-# build and deploy your app every time your code saves/changes
-skaffold dev
-```
 
 ## IntelliJ Tips
 
