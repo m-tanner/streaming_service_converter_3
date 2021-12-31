@@ -43,6 +43,8 @@ Compile / resourceDirectory := baseDirectory.value / "src/main/resources"
 Test / scalaSource       := baseDirectory.value / "src/test/scala"
 Test / resourceDirectory := baseDirectory.value / "src/test/resources"
 
+Assets / resourceDirectory := baseDirectory.value / "src/main/public"
+
 enablePlugins(PlayScala, PlayService, JavaAppPackaging)
 
 Compile / publishArtifact := false

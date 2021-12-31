@@ -60,7 +60,7 @@ class SpotifyClient @Inject() (ws: WSClient, settings: Settings)(implicit ec: Ex
       // having the name in both places, key and stat.name, is useful for debugging
       var statsAccumulator: mutable.Map[String, Stat] =
         facets.foldLeft(mutable.Map[String, Stat]())((theMap, thisStatName) =>
-          theMap + (thisStatName -> Stat(name = thisStatName))
+          theMap + (thisStatName -> Stat(name = thisStatName)) // TODO fix this compiler warning
         )
 
       for (metric <- facets) {

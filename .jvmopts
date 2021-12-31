@@ -1,2 +1,6 @@
--Xmx500M
--Xss2M
+# from https://stackoverflow.com/a/60200211/3740446
+-XX:InitialRAMPercentage=70
+-XX:MaxRAMPercentage=70
+# must comment out UseContainerSupport for `sbt run` to work
+-XX:+UseContainerSupport
+-XX:InitialHeapSize=0

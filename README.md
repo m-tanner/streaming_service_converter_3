@@ -12,10 +12,6 @@ Containerization: Docker
 
 Deployment: Google Cloud Run
 
-## TODO
-
-1) Read and implement according to [this](https://stackoverflow.com/questions/60354048/how-much-headroom-to-leave-between-java-xmx-and-docker-container-ram-size)
-
 ## Technologies Used
 
 ### Scala/sbt/Play
@@ -88,9 +84,12 @@ docker run --rm -it --entrypoint=/bin/bash streaming_service_converter_3
 docker build . --file ./src/docker/Dockerfile --tag streaming_service_converter_3:latest --build-arg SERVICE_VERSION="0.1.0-SNAPSHOT"
 # add `--target build0` to stop at the build0 stage
 
-# run, mapping 8080 on your machine to 9000 on the container
+# run
+# setting a memory limit (to behave like it will on Google Cloud Run)
+# setting enviornment variables
 # you must have these environment variables set appropriately on the host machine
-docker run -e PLAY_APPLICATION_SECRET -e SPOTIFY_CLIENT_SECRET -p 8080:9000 streaming_service_converter_3
+# setting 8080 on your machine mapped to 9000 on the container
+docker run -m 256m -e PLAY_APPLICATION_SECRET -e SPOTIFY_CLIENT_SECRET -p 8080:9000 streaming_service_converter_3
 
 # cleanup your system
 docker system prune -a -f --volumes

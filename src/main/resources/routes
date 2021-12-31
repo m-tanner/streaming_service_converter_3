@@ -1,3 +1,4 @@
 GET     /                   @controllers.Default.redirect(to = "/health")
 GET     /health             @com.streamingswap.health.HealthController.index()
+GET     /favicon.ico        @controllers.Assets.at(path="/public", file="favicon.ico")
 ->      /v1/statistics      com.streamingswap.v1.statistics.StatisticsRouter
