@@ -55,25 +55,6 @@ see [containers](./documentation/k8s.svg).
 
 [Get started with Docker](https://docs.docker.com/get-started/)
 
-#### Base Image Selection Explained
-
-Several base images were considered:
-
-- graalvm
-- corretto
-- corretto-alpine
-
-GraalVM is huge. We don't need most of what it does. This should be reconsidered if we want to consider `native-image`.
-
-Corretto is nice, but requires we go to their servers for package updates (to get bash, unzip, etc). This is blocked by
-Axon firewalls.
-
-Corretto-alpine was selected for its simplicity and because it's based on alpine, package installation (bash, unzip,
-etc) come from an offical linux mirror, which is not blocked by firewalls.
-
-The docker image build is done in several layers and all layers are pushed to image storage. This should make us
-resilient to dependency unavailability, since we would be able to rely on these "cached" images.
-
 #### Useful Commands
 
 ```bash
@@ -95,7 +76,7 @@ docker run -m 256m -e PLAY_APPLICATION_SECRET -e SPOTIFY_CLIENT_SECRET -p 8080:9
 docker system prune -a -f --volumes
 ```
 
-#### Skaffold
+### Skaffold
 
 Skaffold allows developers to turn their laptops into CI/CD machines. It speeds up the local development cycle. It can
 also deploy to remote servers, but we have TeamCity, `k8s-deploy`, and `argo-apps` for that.
@@ -111,7 +92,7 @@ skaffold build
 skaffold run
 ```
 
-#### Google Cloud Run
+### Google Cloud Run
 
 Cloud Run can run arbitrary containers.
 
