@@ -1,6 +1,6 @@
 package com.streamingswap.v1.statistics
 
-import com.streamingswap.spotify.{PlaylistId, SpotifyClient}
+import com.streamingswap.spotify.{ PlaylistId, SpotifyClient }
 import com.typesafe.scalalogging.LazyLogging
 import play.api.mvc._
 
@@ -9,7 +9,7 @@ import javax.inject.Inject
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
-import scala.util.{Failure, Success, Try}
+import scala.util.{ Failure, Success, Try }
 
 class StatisticsController @Inject() (val spotifyClient: SpotifyClient, val controllerComponents: ControllerComponents)
     extends BaseController
@@ -18,7 +18,7 @@ class StatisticsController @Inject() (val spotifyClient: SpotifyClient, val cont
   def fetchStatisticsForPlaylist(playlistId: String): Action[AnyContent] = Action {
     logger.info("fetchStatisticsForPlaylist")
 
-    val pattern = Pattern.compile("[^a-zA-Z0-9]")
+    val pattern            = Pattern.compile("[^a-zA-Z0-9]")
     val hasNonAlphanumeric = pattern.matcher(playlistId).find()
 
     if (hasNonAlphanumeric) {
@@ -46,7 +46,7 @@ class StatisticsController @Inject() (val spotifyClient: SpotifyClient, val cont
 
   private def logMemory(): Unit = {
     // memory info
-    val mb = 1024*1024
+    val mb      = 1024 * 1024
     val runtime = Runtime.getRuntime
     logger.debug("** ALL RESULTS IN MB **")
     logger.debug("** Used Memory:  " + (runtime.totalMemory - runtime.freeMemory) / mb)
