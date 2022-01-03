@@ -18,7 +18,7 @@ class StatisticsController @Inject() (val spotifyClient: SpotifyClient, val cont
   def fetchStatisticsForPlaylist(id: String): Action[AnyContent] = Action {
     logger.info("fetchStatisticsForPlaylist")
 
-    val playlistId = PlaylistId(id = id)
+    val playlistId = PlaylistId(id)
 
     if (playlistId.hasNonAlphanumeric) {
       logger.info(s"fetchStatisticsForPlaylist failed for invalid playlistId=$playlistId")

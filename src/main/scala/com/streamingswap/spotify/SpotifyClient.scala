@@ -95,7 +95,7 @@ class SpotifyClient @Inject() (ws: WSClient, settings: Settings)(implicit ec: Ex
     result
   }
 
-  private def fetchTracks(id: PlaylistId): Future[Map[String, Track]] = {
+  def fetchTracks(id: PlaylistId): Future[Map[String, Track]] = {
     fetchPlaylistItems(id).map { items =>
       items.foldLeft(Map[String, Track]())((m, s) => m + (s.track.id -> s.track)) // repackage as a map of (id -> track)
     }
