@@ -1,9 +1,6 @@
 package com.streamingswap.spotify
 
 case class ClientCredentials(access_token: String, token_type: String, expires_in: Int)
-case class PlaylistId(id: String) {
-  override def toString: String = id
-}
 case class Playlist(name: String, owner: Map[String, String], external_urls: Map[String, String])
 case class Artist(id: String, name: String)
 case class Image(height: Int, url: String, width: Int)

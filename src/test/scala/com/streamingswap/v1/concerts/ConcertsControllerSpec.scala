@@ -6,13 +6,12 @@ import com.streamingswap.{ PlaySpec, Settings }
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.ws.ahc.{ AhcWSClient, AhcWSClientConfigFactory }
 import play.api.mvc._
-import play.api.test.Helpers._
 import play.api.test._
 import play.api.{ Environment, Mode }
 
 import java.io.File
 import scala.concurrent.ExecutionContext.global
-import scala.concurrent.{ ExecutionContextExecutor, Future }
+import scala.concurrent.ExecutionContextExecutor
 
 class ConcertsControllerSpec extends PlaySpec with Results with GuiceOneAppPerSuite {
 

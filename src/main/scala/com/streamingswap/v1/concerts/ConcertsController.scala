@@ -1,6 +1,7 @@
 package com.streamingswap.v1.concerts
 
-import com.streamingswap.spotify.{ PlaylistId, SpotifyClient }
+import com.streamingswap.PlaylistId
+import com.streamingswap.spotify.SpotifyClient
 import com.streamingswap.ticketmaster.TicketmasterClient
 import com.typesafe.scalalogging.LazyLogging
 import play.api.mvc._
