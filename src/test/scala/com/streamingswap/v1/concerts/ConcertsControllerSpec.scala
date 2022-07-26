@@ -2,7 +2,6 @@ package com.streamingswap.v1.concerts
 
 import com.streamingswap.bandsintown.BandsInTownClient
 import com.streamingswap.spotify.SpotifyClient
-import com.streamingswap.ticketmaster.TicketmasterClient
 import com.streamingswap.{PlaySpec, Settings}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.ws.ahc.{AhcWSClient, AhcWSClientConfigFactory}
@@ -26,10 +25,9 @@ class ConcertsControllerSpec extends PlaySpec with Results with GuiceOneAppPerSu
     val ws                 = AhcWSClient(wsConfig)(mat)
     val spotifyClient      = SpotifyClient(ws, settings)(ec)
     val bandsInTownClient = BandsInTownClient(spotifyClient, ws, settings)(ec)
-    val ticketmasterClient = TicketmasterClient(ws, settings)(ec)
     try {
       testCode(
-        ConcertsController(spotifyClient, bandsInTownClient, ticketmasterClient, Helpers.stubControllerComponents())
+        ConcertsController(spotifyClient, bandsInTownClient, Helpers.stubControllerComponents())
       ) // loan the controller
     } finally ws.close()
   }

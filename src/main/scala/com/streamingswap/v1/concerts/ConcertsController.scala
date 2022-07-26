@@ -3,7 +3,6 @@ package com.streamingswap.v1.concerts
 import com.streamingswap.PlaylistId
 import com.streamingswap.bandsintown.BandsInTownClient
 import com.streamingswap.spotify.SpotifyClient
-import com.streamingswap.ticketmaster.TicketmasterClient
 import com.typesafe.scalalogging.LazyLogging
 import play.api.mvc._
 
@@ -16,7 +15,6 @@ import scala.util.{ Failure, Success, Try }
 class ConcertsController @Inject() (
   val spotifyClient: SpotifyClient,
   val bandsInTownClient: BandsInTownClient,
-  val ticketmasterClient: TicketmasterClient,
   val controllerComponents: ControllerComponents,
 ) extends BaseController
     with LazyLogging {
@@ -53,8 +51,7 @@ object ConcertsController {
   def apply(
     spotifyClient: SpotifyClient,
     bandsInTownClient: BandsInTownClient,
-    ticketmasterClient: TicketmasterClient,
     controllerComponents: ControllerComponents,
   ): ConcertsController =
-    new ConcertsController(spotifyClient, bandsInTownClient, ticketmasterClient, controllerComponents)
+    new ConcertsController(spotifyClient, bandsInTownClient, controllerComponents)
 }

@@ -14,9 +14,6 @@ class Settings @Inject() (config: Config) {
   val bandsInTownUrl: String = config.getString("app.config.bandsInTown.apiUrl")
   val bandsInTownAppId: String = config.getString("app.config.bandsInTown.appId")
   require(bandsInTownAppId != "changeme", "bandsintown app id not set as an environment variable")
-  val ticketmasterClientId: String     = config.getString("app.config.ticketmaster.clientId")
-  val ticketmasterClientSecret: String = config.getString("app.config.ticketmaster.clientSecret")
-  require(spotifyClientSecret != "changeme", "ticketmaster client secret not set as an environment variable")
 }
 
 object Settings {
