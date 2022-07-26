@@ -2,5 +2,5 @@
 -XX:InitialRAMPercentage=70
 -XX:MaxRAMPercentage=70
 # must comment out UseContainerSupport for `sbt run` to work
--XX:+UseContainerSupport
+#-XX:+UseContainerSupport
 -XX:InitialHeapSize=0

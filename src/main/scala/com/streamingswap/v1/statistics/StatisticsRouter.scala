@@ -6,9 +6,6 @@ import play.api.routing.sird._
 
 import javax.inject.Inject
 
-/**
- * Routes and URLs to the PostResource controller.
- */
 class StatisticsRouter @Inject() (controller: StatisticsController) extends SimpleRouter {
   val prefix = "/v1/statistics"
 

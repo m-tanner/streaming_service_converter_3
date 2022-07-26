@@ -1,10 +1,10 @@
 package com.streamingswap.v1.statistics
 
-import com.streamingswap.spotify.{ PlaylistId, SpotifyClient }
+import com.streamingswap.PlaylistId
+import com.streamingswap.spotify.SpotifyClient
 import com.typesafe.scalalogging.LazyLogging
 import play.api.mvc._
 
-import java.util.regex.Pattern
 import javax.inject.Inject
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
@@ -15,18 +15,17 @@ class StatisticsController @Inject() (val spotifyClient: SpotifyClient, val cont
     extends BaseController
     with LazyLogging {
 
-  def fetchStatisticsForPlaylist(playlistId: String): Action[AnyContent] = Action {
+  def fetchStatisticsForPlaylist(id: String): Action[AnyContent] = Action {
     logger.info("fetchStatisticsForPlaylist")
 
-    val pattern            = Pattern.compile("[^a-zA-Z0-9]")
-    val hasNonAlphanumeric = pattern.matcher(playlistId).find()
+    val playlistId = PlaylistId(id)
 
-    if (hasNonAlphanumeric) {
+    if (playlistId.hasNonAlphanumeric) {
       logger.info(s"fetchStatisticsForPlaylist failed for invalid playlistId=$playlistId")
       BadRequest("not a valid spotify playlist id. these must be alphanumeric only.")
     } else {
       val response = Try {
-        val futureResult   = spotifyClient.fetchStatistics(PlaylistId(playlistId))
+        val futureResult   = spotifyClient.fetchStatistics(playlistId)
         val result: String = Await.result(futureResult, 10 seconds)
         result
       }

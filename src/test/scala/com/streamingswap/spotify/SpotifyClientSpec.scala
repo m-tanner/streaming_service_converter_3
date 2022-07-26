@@ -1,6 +1,6 @@
 package com.streamingswap.spotify
 
-import com.streamingswap.{ PlaySpec, Settings }
+import com.streamingswap.{ PlaySpec, PlaylistId, Settings }
 import org.scalatest.PrivateMethodTester
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.libs.json.Json
@@ -31,6 +31,8 @@ class SpotifyClientSpec extends PlaySpec with Results with PrivateMethodTester w
 
   }
 
+  private val fourTrackFridayPlaylistId = PlaylistId("720360kMd4LiSAVzyA8Ft4")
+
   "SpotifyClient" must {
     "successfully retrieve a bearer token" in withRealClient { client =>
       val authorize = PrivateMethod[Future[List[(String, String)]]](Symbol("authorize"))
@@ -42,7 +44,7 @@ class SpotifyClientSpec extends PlaySpec with Results with PrivateMethodTester w
     "successfully retrieve a playlist" in withRealClient { client =>
       val fetchPlaylistInfo = PrivateMethod[Future[Playlist]](Symbol("fetchPlaylistInfo"))
 
-      val futureResult: Future[Playlist] = client invokePrivate fetchPlaylistInfo(PlaylistId("720360kMd4LiSAVzyA8Ft4"))
+      val futureResult: Future[Playlist] = client invokePrivate fetchPlaylistInfo(fourTrackFridayPlaylistId)
       val playlist                       = Await.result(futureResult, 1 second)
       playlist.name mustBe "Four Track Friday"
       playlist.owner mustBe Map("display_name" -> "Tanner")
@@ -52,7 +54,7 @@ class SpotifyClientSpec extends PlaySpec with Results with PrivateMethodTester w
       val fetchPlaylistItems = PrivateMethod[Future[List[Item]]](Symbol("fetchPlaylistItems"))
 
       val futureResult: Future[List[Item]] =
-        client invokePrivate fetchPlaylistItems(PlaylistId("720360kMd4LiSAVzyA8Ft4"))
+        client invokePrivate fetchPlaylistItems(fourTrackFridayPlaylistId)
       val items = Await.result(futureResult, 10 second)
       items must have length 405
       items.head.added_at mustBe "2019-07-14T20:36:50Z"
@@ -61,7 +63,7 @@ class SpotifyClientSpec extends PlaySpec with Results with PrivateMethodTester w
       val fetchTracks = PrivateMethod[Future[Map[String, Track]]](Symbol("fetchTracks"))
 
       val futureResult: Future[Map[String, Track]] =
-        client invokePrivate fetchTracks(PlaylistId("720360kMd4LiSAVzyA8Ft4"))
+        client invokePrivate fetchTracks(fourTrackFridayPlaylistId)
       val tracks = Await.result(futureResult, 10 second)
       tracks must have size 405
       tracks must contain key "1PR1JQmuOmI3eD4isHeLlI"
@@ -70,14 +72,14 @@ class SpotifyClientSpec extends PlaySpec with Results with PrivateMethodTester w
       val buildStats = PrivateMethod[Future[Map[String, Stat]]](Symbol("buildStats"))
 
       val futureResult: Future[Map[String, Stat]] =
-        client invokePrivate buildStats(PlaylistId("720360kMd4LiSAVzyA8Ft4"))
+        client invokePrivate buildStats(fourTrackFridayPlaylistId)
       val metrics = Await.result(futureResult, 10 second)
       metrics must have size 9
       metrics must contain key "tempo"
       metrics("tempo").minTrack.get.id mustBe "18uI37pTOz9tfk3U4jB8ci"
     }
     "successfully produce json of metrics" in withRealClient { client =>
-      val futureResult: Future[String] = client.fetchStatistics(PlaylistId("720360kMd4LiSAVzyA8Ft4"))
+      val futureResult: Future[String] = client.fetchStatistics(fourTrackFridayPlaylistId)
       val json                         = Await.result(futureResult, 10 second)
 
       // for debugging

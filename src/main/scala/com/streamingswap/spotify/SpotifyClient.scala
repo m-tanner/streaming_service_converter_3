@@ -1,8 +1,7 @@
 package com.streamingswap.spotify
 
 import com.google.common.base.Charsets
-import com.streamingswap.Settings
-import com.typesafe.scalalogging.LazyLogging
+import com.streamingswap.{ Client, PlaylistId, Settings }
 import org.json4s.DefaultFormats
 import org.json4s.native.{ Json => Json4s }
 import play.api.libs.json.{ Json, Reads }
@@ -16,7 +15,8 @@ import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ Await, ExecutionContext, Future }
 import scala.language.{ implicitConversions, postfixOps }
 
-class SpotifyClient @Inject() (ws: WSClient, settings: Settings)(implicit ec: ExecutionContext) extends LazyLogging {
+class SpotifyClient @Inject() (ws: WSClient, settings: Settings)(implicit ec: ExecutionContext)
+    extends Client(ws, settings)(ec) {
 
   def fetchStatistics(id: PlaylistId): Future[String] = {
     for {
@@ -95,7 +95,7 @@ class SpotifyClient @Inject() (ws: WSClient, settings: Settings)(implicit ec: Ex
     result
   }
 
-  private def fetchTracks(id: PlaylistId): Future[Map[String, Track]] = {
+  def fetchTracks(id: PlaylistId): Future[Map[String, Track]] = {
     fetchPlaylistItems(id).map { items =>
       items.foldLeft(Map[String, Track]())((m, s) => m + (s.track.id -> s.track)) // repackage as a map of (id -> track)
     }
